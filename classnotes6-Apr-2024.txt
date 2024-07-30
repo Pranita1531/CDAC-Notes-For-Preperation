@@ -1,0 +1,638 @@
+Good Morning :)
+
+ process , life cycle , scheduling algorithms , fork ,getpid, getppid
+ 
+ exec system call ---- allow us to run a program within a given address space 
+ 
+ fork = creating a child by duplicating address space 
+		parent process pid is different from the child's pid 
+		
+ exec  = a program is run in an existing process space , existing pid
+		  code is determined by exec
+  
+	exec family of functions ---
+	1. execl = pass the command or program name and its options in a coma separated list
+			execl("path","command", "option1", "option2" ,NULL );
+			execl("/bin/ls", "ls" ,"-l",NULL)
+	
+	
+	2. execv = pass the command or program name and its options in array 
+		char* [] arr = {"command","options1",NULL}
+		execv("PATH", arr)
+  
+    3.  execlp = pass the command or program name and its options in a coma separated list, the path is not needed. the shell will find the path from the path environment variable
+	
+	
+	4. execvp =pass the command or program name and its options in array and path is not needed.the shell will find the path from the path environment variable
+	
+_______________________________________
+Deadlocks  ---- 
+  Processes are waiting Indefinitely for a IO-RESOURCE 
+  
+  IO-RESOURCE = Example = Keyboard , console, mouse, printer, HDD,PD
+
+  For deadlock to occur = 4 neccessary conditions -
+	1. mutual exclusion = resource is not shareable at a time 
+	2. hold and wait = kernel allows a proces to hold a resource and wait for other resource
+	3. no preemption = kernel cannot forcefully release a resource from the process 
+	4. circular wait = process waits for another process and another process waits for this process 
+
+
+(RESOURCE ALLOCATION GRAPH)RAG is used to represent Deadlock in the Kernel 
+
+___________________________________________
+
+How to Handle Deadlock ?
+1. Prevent Deadlocks  ----  SERVER OS 
+1.2 Avoid Deadlocks
+
+2. Handle Deadlock
+
+3. Ignore ---  Linux based OS 
+
+_______________________________________
+1. Prevent Deadlocks ----  Dont let all 4 neccessary conditions occur at a time. break any one condition 
+
+1.2   Avoid Deadlocks ---- Banker's Algorithm 
+		Allocate(GRANT) a resource only if system will stay in SAFE state
+		otherwise reject the request for resource
+		
+		
+2. Handle deadlocks = POST deadlock handling  
+		-- kill a low priority process from deadlock cycle
+		---its resources are released
+		--- try to satisfy other process needs
+		-- if not REPEAT
+
+
+3. Ignore 
+_______________________________________
+
+Deadlocks Vs Starvation
+
+Deadlock = process waits for a long time
+			FOR IO RESOURCEs
+			REASON -  4 neccessary conditions
+			
+			Solution to deadlock - prevention/avoidance/handling/ignore
+			
+starvation = process waits for a long time -
+			  for CPU
+			REASON -  the process has low priority 
+			Solution - Promote the process to higher priority after it has waited for some stipulated time - AGEING 
+________________________________________________
+
+1. WASS program to accept a number from user 
+	for ex user enters 3
+	show output  
+		1
+		1 2 
+		1 2 3
+		1 2
+		1
+		
+		*
+		* *
+		* * *
+		* *
+		*
+
+2.  WASS to accept a number from the user and tell
+	whether it is prime or not 
+	
+3. WASS to accept a number from user and show its factorial 
+
+4. WASS to accept a number from user and show its math table upto 10 
+
+5. WASS to show a menu  - 1. add ,2. subtract , 3 multiple 4 divide
+	for non integer numbers 
+	bc 
+	
+_________________________________________________
+
+for i in range 15 16 17 18 19 20
+do
+   echo $i
+done
+
+________________________________
+
+for x in `ls`
+do
+  echo "printing contents of $x....."
+  if [ -f $x ]
+  then
+  cat $x
+  fi
+
+  if [ -d $x ]
+  then
+    ls $x
+  fi
+done
+____________________________________
+
+case $cho in
+ 1) x = $((no1+no2))
+    echo "Sum " $x
+    ;;
+ 2) x = $((no1-no2))
+    echo "Subtraction " $x
+    ;;
+ 3) x = $((no1*no2))
+    echo "Multiplication " $x
+    ;;
+ 4) x = $((no1/no2))
+    echo "Division " $x
+    ;;
+esac
+
+____________________________________
+
+Command Line Arguments ----
+	pass arguments on the command prompt where the program is running 
+
+WASS  to  accept numbers in command line and show their sum 
+
+sum=0
+for a in $@
+do
+   sum=`echo "$sum + $a" | bc`
+done
+
+echo "sum=$sum"
+
+_________________________________________________
+
+Redirection  ----- send the output to a file instead of console 
+
+ ls   > Overwrite the current content of the file
+	ls  >> Append to the current content of the file 
+
+WASS  that will accept numbers from user till user enters quit 
+put all the numbers in a file 
+show all the numbers in sorted order 
+
+while [ 1 -gt 0 ]
+do
+  echo "enter num"
+  read input
+
+  if [ $input = "quit" ]
+  then
+  break
+  fi
+
+  echo "$input" >> myvalues
+
+done
+
+sort -n ./myvalues
+
+__________________________________________
+	Regular expression for valid email ---
+	
+	echo "prachi@abcd.qww" | grep -E "^[A-Z a-z]+@[a-z]+.[a-z]{3}$"
+________________________________________________________
+
+  chmod  = Used to give permissions to files and folders 
+  
+  permissions =  rwx
+   r= read
+   w = write
+   x = execute
+   
+   
+   file has only r  = vi -- :q ,  cat, tac , sort , head ,tail,wc
+   file has w  = vi -- :wq .
+   file has x =  ./execex  } executable - green color 
+   
+   folder has only r  = ls , ls -l 
+   folder has w permissions = in the folder mkdir, rmdir , rm ,rm -r, cp, mv, vi newfile , touch 
+   folder has x permission  =  cd 
+   
+   
+   The 3 permissions are given to 3  entities
+    user(owner)
+	group
+	others 
+	
+	 group amdin --- users  a1, a2,a3
+	 group students --- users s1,s2,s3,s4, s5,s6
+	 group guests ---- users g1, g2 
+	 
+	 if s2 logs in and creates a file alpha 
+		who is the user(owner ) of alph  ?  s2
+		who is group of alpha ?  s1,s3,s4,s5,s6 
+		who is others for alpha ?  a1,a2,a3, g1,g2 
+	
+	
+  touch alpha
+  ls -l alpha   default permissions rw-rw-r--
+	chmod u+x alpha  
+	chmod ugo+x alpha 
+	chmod ugo-x alpha 
+--------------------------	
+	rwxrw-r--    remove w from g and add x to g 
+	 chmod g-w alpha
+	 chmod g+x alpha 
+	 
+	 OR 
+	 
+	  chmod  g=rx alpha
+---------------------------
+	octal values 
+		 rwx
+		 000=0
+		 001=1
+		 010=2
+		 011=3
+		 100=4
+		 101=5
+		 110=6
+		 111=7
+	  
+	  chmod 777 ./alpha.sh
+	  chmod 744 ./alpha.sh 
+	  chmod 711
+	  chmod 764  ./alpha.sh 
+_______________________________________
+	  
+	Memory Management  ----
+   addresses  = physical address, logical address, offset address, base address, actual address
+   
+   LTS = Long Term Schedular = used to select a process to be loaded RAM 
+   This is before the process creation!!!
+   (High Level Schedular )
+   
+scenario1 = load full process in RAM , @contiguous locations 
+scenario2 = load full process in RAM , @non contiguous locations
+scenario3 = load partial process in RAM, @non contiguous location
+   
+   
+scenario1----------
+Variable Partition Scheme and Fixed Partition Scheme 
+
+variable partition scheme ---
+RAM is divided into variable number of partitions
+the size of partitions may be unequal 
+has a problem of external fragmentation = 
+	freespace >= required space but still process is not loaded because contiguous freespace not available
+
+Solution to external fragmentation --- 
+Compaction = theoretical solution to external fragmentation
+=  shift the processes to one end of the RAM so that all the free memory is contiguous
+
+
+Allocation of Free Blocks ---
+	1. First Fit = first available freespace>=requiredspace 
+	2. Best Fit = 
+			Min( freespace-requiredspace )
+				5-3=2
+				3-3=0  // this will be allocated
+				10-3=7
+	
+	3. Worst Fit 
+			Max( freespace-requiredspace ) 
+
+			5-3=2
+			3-3=0
+		    10-3= 7  //this will be allocated
+
+Popular  Worst Fit
+
+
+
+Actual address calculation =  Base address + offset address 
+
+________________________________________________
+Fixed Partition Scheme - the RAM is partitioned at the time of bootstrapping  into equal size  and fixed number of partitions.
+These are called as FRAMES !!!
+
+It has a problem of Internal Fragmentation = the space allocation is done in terms of FRAMES. if process size is not exact multiple of frame size then the last frame has unused space that is wasted !!
+
+It has a problem of external fragmentation = the required number of free frames are available but they are not contiguous 
+
+To allocate free frames = First fit, best fit or worst fit may be used to allocate the free hole to the process 
+
+Actual address = find the base frame 
+					|
+				kernel provides the base address of base frame
+					+
+				 offset address 
+				 
+				 
+				 
+				 
+				 
+_______________________________________________
+scenario2 = full process in RAM @non contiguous memory 
+
+1. Segmentation = is based on variable partition scheme 
+   Process is divided into unequal size partitions called as segments on the basis of content [ code segment , data segment, stack segment , heap segment ] 
+   
+   To keep track of the segments - each process has segment table
+    3 columns -[ segNo, SegBaseaddress, segLength(limit)  ]
+
+	advantages - no internal fragmentation
+			  - external fragmentation is reduced
+			 - segment table is small in size 
+		
+	disadvantages ---1. external fragmentation is still occuring sometimes if segment does not get contiguous space 
+	2. additional data structure like segment table has to be maintained to keep track of segments @non contiguous locations
+	
+	Actual address calculation --- 
+	
+	PC = offset address is made up of segNo + seg Offset 
+	
+	1. Kernel reads the segNo from Pc and refers to segment table . kernel gets seg-base-address from seg-table
+	
+	Actual address = seg-base-address  + seg-offset
+
+
+2. Paging= based on fixed partition scheme 
+   RAM is divided into Frames
+   Process is divided into Pages of equal size . proces is divided on the basis of SIZE . !!!
+
+	A page table with two columns - Page number and frame number 
+	keep track of which page is stored in which frame 
+
+
+	advantages = 1. external fragmentation is REMOVED
+	
+	disadvantages = Internal fragmentation 
+			= page table has to be maintained to keep track of pages .
+			= the size of page table is VERY large 
+			
+_______________________________________________
+Scenario3 = load partial process in RAM -- non contiguous memory 
+
+What are the disadvantages of loading full process in RAM ?
+1. process size cannot be greater than RAM size
+2. process pages maybe unneccessarily loaded even if never used .
+3. degree of multiprogramming is reduced .
+		what is degree of multiprogramming = number of processes in RAM at a given time
+		if this is LOW === USER Can run fewer programs at a time
+		if this is HIGH = USER can run many programs at a time 
+
+__________________________
+Let us say that 10% of the pages are loaded in RAM 
+so remaining 90 % pages are in the swap space of HDD ( Virtual memory ) 
+
+
+For ex - Process has 100 pages ---
+	RAM = 10 , page table -10 
+	Swap space = 90
+
+As long as the next instruction is in a page available in RAM Frame the process runs smoothly.
+If the next instruction is on a page that is not loaded in RAM then 
+------ page fault interrupt occurs 
+------ ISR of page fault interrupt will load the demanded page in the free frame of RAM . Till then the process i.e FAULTING process waits . When demanded page is loaded in RAM process moves to ready queue. 
+As the pages are loaded on demand this technique is also called as DEMAND PAGING.
+
+If the free frame is not available and page fault occurs ----
+kernel will replace an existing page with demanded page . 
+
+Q. Should the page of FAULTING process be replaced or should the page of any other process be replaced ?
+  Global Page Replacement Policy = page of any process can be replaced
+    Problem = to solve one problem other process start faulting- leading to a chain of faulting processes- many proceses are waiting- system appers to have hanged = THRASHING .
+	
+  Local Page Replacement Policy = other page of the FAULTING process is replaced. this avoids thrashing , other processes are not affected .
+_______________________________________________________
+
+Which page should be replaced ? Depends on the Page Replacement Algorithm.
+
+some basic page replacement algorithms ---
+1.  FIFO = the page that is having oldest arrival time is replaced 
+2.  OPT = optimum page replacement algorithm 
+		Practical implementations of OPT are ---
+		1. LRU = Least Recently Used = the page having oldest access time is replaced
+		2. MRU = Most Recently Used = the page having recent access time is replaced
+		
+_______________________________________________________
+Page access string = sequence in which the pages are accessed by process.
+
+Page access string = 1,2,3,4,2,1,3,5
+Calculate number of page faults and number of page replacements using 
+1. FIFO
+2. LRU 
+3. MRU 
+
+Assume that number of frames allocated to the process is 3 !!!
+
+MRU -----------------replace the Recently accessed page 
+F1      F2       F3 
+1(O)    2        3(R)    3 PF 
+1(O)    2        4(R)    1PF + 1PR 
+(O)    (R)   
+(R)              (O)
+3(R)             (O)     1PF + 1PR
+5(R)             (O)     1PF + 1PR 
+
+
+6PF  and 3PR 
+_______________________________________________________
+HW ---Page access string = 1,2,3,4,2,1,3,5  
+find the total page faults and page replacements using FIFO, LRU ,MRU 
+and assume that number of free frames allocated to process are 4
+
+HW --- Page access string = 1,2,1,2,3,2,4,2,5
+find the total page faults and page replacements using FIFO, LRU ,MRU 
+and assume that number of free frames allocated to process are 3
+
+__________________________
+Normal understanding = if number of frames are more PAGE FAULTS will be less
+
+Belady's anomaly=in FIFO if number of frames are increased page faults may increase !!!
+
+LRU . MRU = if number of frames increase then page faults decrease 
+_______________________________________________________
+for every page a Dirty bit is set ---Modified bit = this is set if page is modified .
+
+If accesss a page --- Referenced bit is set , indicating that the page has been accessed
+_______________________________________________________
+
+Process Management --- Semaphore  ----
+
+
+Shared Memory --- at a time two processes get the pointer to the same buffer.
+This type of data sharing may happen between 2 threads or 2 processes.
+
+A problem MAY occur during such DATA SHARING  =  RACE CONDITION 
+The value of shared data is not consistent with the operations .
+
+Solution to Race Condition ---- MUTUAL EXCLUSION 
+Use a lock to ensure that only one process enters the CRITICAL SECTION at a time
+
+CRITICAL SECTION = code that is modifying or using shared data.
+
+The Lock used to achieve the mutual exclusion = Semaphore 
+
+Semaphore is an integer variable that does not get RACE CONDITION!!!
+because it can be accessed by two atomic functions(NO INTERRUPT function) only.
+ these functions are called as  wait and signal
+  OR they are also called as P and V 
+  
+    wait(semaphore)
+	{
+		if(semaphore > 0 )
+			semaphore -- 
+			return ( allow the process to go ahead ) 
+	    else
+		   block ( dont allow the process to go ahead  )
+	}
+
+    signal(semaphore)
+	{
+	   semaphore++
+	}
+_______________________________________________________
+2 types of semaphores
+1. binary semaphore = MUTEX = semaphore whose value will toggle between 0 and 1
+2. counting semaphore = the value of semaphore will go from 0 to n and n to 0
+		this semaphore may be used as DATA itself in IPC 
+_______________________________________________________
+classical process/thread synchronization problem = producer-consumer problem
+also called as bounded buffer problem
+
+
+producer
+    while(1)
+	{
+	   wait(empty)
+	   produceitem()
+       wait(mutex)
+	   addtobuffer()  //Critical section
+	   signal(mutex)
+	   signal(full) 
+	}
+consumer()
+{	while(1)
+	{
+	    wait(full)
+		wait(mutex)
+		pickitemfrombuffer()  //Critical section
+		signal(mutex)
+		consumeitem() 
+		signal(empty)
+	}
+}
+
+shared data = buffer ( we need to protect the buffer ) 
+USE MUTEX to protect the buffer from RACE CONDITION 
+	
+if the buffer is full , then the producer should wait 
+if the buffer is empty then the consumer should wait
+
+producer and consumer will share counting semaphores for IPC
+	full semaphore  = initial value  =0
+	empty semaphore = initial value = 10
+	
+  
+	  
+	  
+	  
+	  
+	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+  
+  
+  
+  
+  
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

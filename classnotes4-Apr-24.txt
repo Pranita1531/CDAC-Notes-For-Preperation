@@ -1,0 +1,500 @@
+
+
+Good Mornig :)
+Kernel space , user space 
+Interrupt Vector table 
+default shell 
+what is a shell ?shell is a kernel program for providing CLI
+Process
+process address space 
+From running state -state transitions and reason 
+____________________________
+
+Process 
+	---  One cpu and many processes 
+	---  one process is in running state & others are in ready state
+	--- many processes in ready queue and waiting for cpu
+	Q - when the cpu is free which process is selected to run on cpu?
+			This Q is answered by Schedular module of Kernel 
+			Schedular = also called as 
+				Short Term Schedular
+				CPU Schedular
+				Low Level Schedular
+				Schedular
+
+		Schedular tries to improve different factors while selecting a process to run. 
+		
+		Terminology - 
+		1. cpu burst time = time required to complete all cpu instructions in a process.
+		
+		2. io burst time = time required to complete all io instructions in a process
+		
+		3. Wait time = time spent by process waiting in ready queue
+				Wt unit sec/ms/ns
+				Good Wt must be as less as possible
+		
+           Average Wait Time = average of Wt of all processes in the system
+			Avg Wt = (Wt1 + Wt2 +....Wtn)/n
+			
+		4. Turnaround time = time spent by process to complete its lifecycle . 
+			Ta = Wt + CpuBurstTime
+			
+			Good Ta must be as less as possible 
+			To reduce Ta , Wt must be reduced 
+		
+		Average Ta = ( Ta1 + Ta2 +... + Tan)/n   of system 
+		
+		5. Throughput = number of processes completed in unit time 
+				unit  processes/sec
+				
+			 Good throughput should be as high as possible 
+			Throughput of system!!!
+			
+		6. Response Time = time needed to respond to a process request
+			Good Response Time must be as low as possible 
+		
+_______________________________________________________
+Common Process Scheduling Algorithms --- Techniques or ways to select a process from ready Queue
+
+1. FIFO = Schedular will select the first process(frontmost) in the ready queue. CPU is allocated till it completes all cpu instructions.
+(assuming there are no IO instructions ) 
+
+Advantages 
+1. simple 
+2. All processes will get a chance in a sequence ( No STARVATION )
+Disadvantages 
+1. process with low cpu burst time may wait after process with high cpu burst time this increasing Wt and Ta , decreasing Throughput 
+
+
+process     Arrival-time       cpu-burst-time
+  p1		0					 4ms
+  p2		2					 3ms
+  p3		3					 5ms
+  
+  Find out the Average Wt and Average Ta using FIFO 
+  
+  Wt =  StartTime - ArrivalTime
+  Wt1 = 0 - 0 = 0
+  Wt2 = 4 - 2 = 2
+  Wt3 = 7 - 3 = 4
+  
+  Average Wait Time = (0+2+4)/3 = 2ms
+  Ta = WaitTime + CpuBurstTime
+  Ta1 = 0 + 4 = 4
+  Ta2 = 2 + 3 = 5
+  Ta3 = 4 + 5 = 9
+  
+  Average Ta = (4+5+9)/3 =6
+  
+ 
+2. SJF = Shortest Job First - Schedular selects the process with lowest CpuBurstTime from the ready Queue .CPU is allocated till all cpu instructions are completed.
+
+Advantages =As lowest cpu-burst-time process runs first Wt is reduced and  Ta reduced , throughput increases .
+
+
+Disadvantages = 
+1. this is Impractical ( theoretical ) - as it is impossible to know the CPUBurstTime of the process before running the process.
+
+2. STARVATION ( of high CpuBurstTime process )-- the process waits too long to get the CPU as more and more short CpuBurstTime processes keep coming in the ready queue
+
+process     Arrival-time       cpu-burst-time
+  p1		0					 7ms
+  p2		1					 3ms
+  p3		3					 5ms
+  p4		1			         2ms 
+
+Find out the Average Wt and Average Ta using Non Preemptive SJF 
+
+Wt = StartTime - ArrivalTime
+Wt1 =    0 -  0 =  0
+Wt2 =    9 -  1 =  8
+Wt3 =    12 - 3 =  9
+Wt4 =    7 -1  =6
+Average Wt  = ( 0 +8 +9+6) /4 = 5.7
+
+Ta = Wt + CpuBurstTime
+Ta1 = 0 +7 = 7
+Ta2 = 8 + 3 = 11
+Ta3 = 9 + 5 = 14
+Ta4 = 6 +2 = 8
+Average Ta = ( 7+11+14+8)/4 = 10
+
+
+Preemption  = Forcefully  make a process leave the CPU 
+		  a process with higher priority ONLY can preempt a process with lower priority 
+		  
+Preemptive SJF = Process with lower CpuBurstTime will preempt process with higher CpuBurstTime
+
+Non Preemptive SJF = No preemption 		  
+	
+_______________________________________________________
+
+process     Arrival-time       cpu-burst-time
+  p1		0					 7ms
+  p2		1					 3ms
+  p3		3					 5ms
+  p4		5		             2ms 
+
+Find out the Average Wt and Average Ta using Preemptive SJF 
+
+Wt = StartTime - ArrivalTime + All(ResumeTime - PreemptTime)
+Wt1 = (0-0) + (11-1) = 0 +10 = 10
+Wt2 = 1 -1 = 0
+Wt3 = (4 - 3 ) + (7-5) =  1 + 2 = 3
+Wt4 = ( 5 -5)  = 0 
+
+Average Wt = (10 +0 +3+ )/4 
+
+Ta = Wt +  CpuBurstTime
+Ta1 = 10 + 7 = 17 , Ta2 = 0+ 3 = 3 , Ta3 = 3+ 5 = 8 , Ta4 = 0+2 = 2
+Avg Ta ( 17 +3+8+2) /4 = 7.5
+
+
+3. Priority
+
+4. Round Robin 
+
+_______________________________________________________
+
+Linux 
+
+bash - file handling commands =   clear , pwd , ls , ls -l , mkdir
+rmdir , rm -r , touch , cat , tac , vi filename , cd 
+
+cd ..  }}}   .. means parent folder 
+
+. }}  . means current folder 
+
+Ex1 --------------
+	pwd = /home/loginfolder
+	
+	create a file using vi and add data to it  = vi test1_data
+	check in the current folder = ls 
+	create a folder backup  = mkdir ./backup
+	check using ls 
+	copy the test1_data from current folder to backup
+	=  cp ./test1_data  ./backup
+	check in backup and in current 
+		ls  ./backup
+		ls
+	
+	create a folder forRef = mkdir forRef
+	move the test1_data from current to forRef
+	=  mv ./test1_data  ./forRef
+	see contents of the file in forRef = cat ./forRef/test1_data
+	
+_______________________________________________________
+
+Ex2  
+	create two folders ding and dong in current folder
+	create files using touch  d1 in ding and d2 in dong 
+	copy the ding folder to backup [  cp -r ./temp ./backup  ]
+
+	check
+	move the dong folder to forRef  [ mv ./backup/temp ./forRef ]
+
+	check
+____________________________________
+
+mv  command is also used for renaming a file or folder 
+
+	  mv ./test1_data  ./assignment }}test1_data is renamed as assignment 
+	  
+	  TRY this in the lab 
+____________________________________
+Ex3 ==== RENAMING using mv
+  mv ./forRef/test1_data  ./forRef/assignment
+  cat ./forRef/assignment
+_______________________________________________________
+
+Shell Script = writing a program using shell commands 
+
+This will interpreted using bash interpreter ----
+
+		Ex .cpp -------compile ---> Ex.exe } run it many times
+		
+		Ex.sh -----interpreter ---> translate each line & RUN 
+____________________________________________________
+
+Ex 4 
+	WASS  first.sh  to print hello world , run it
+____________________________________________________
+Ex 5
+	WASS second.sh  to accept a name from user and print hello to user
+	
+____________________________________________________
+
+Ex 6 --- WASS accept a name from user and create a folder of that name in current folder 
+show the content of current folder
+
+_______________________________________________________
+
+Ex 7 ---  WASS  accept a name from the user and create a file in current folder using touch . show detailed contents of current folder
+____________________________
+
+Ex 8 --- WASS  to accept a path of a file along with name		
+			show the content of the file in reverse order
+			remove the file 
+			
+____________________________________________________
+
+Ex 9 --- WASS  to accept a filename with full path and a new name		
+			rename the file and show the content using new name 
+			
+_____________________________________
+
+
+Good Afternoon 
+
+Priority Scheduling - Schedular selects the process with highest priority from the ready queue.
+
+Prirority may be allocated by the Kernel or by the programmer .
+Usually the priorities range from 1 to 10 
+1 = lowest 
+10 = highest 
+
+kernel process higher priority than user process
+programmer can change the default priority using system calls like setpriority !!!
+
+
+2 types of Priority scheduling -
+1. Preemptive Priority = Higher priority process preempts the lower priority process runnning on cpu
+
+2. Non Preemptive Priority = no preemption
+
+
+Advantages - 
+1. Prirority is considered
+
+Disadvantage -
+1. STARVATION of low priority process may happen 
+
+
+Assume  1= lowest 10 = highest 
+
+process   arrivalTime CPUBurstTime  Priority
+p1		     0			  4ms		    5
+P2			 0 			  2ms			2
+P3		     3	          5ms		    7
+
+Find the Avg Wt and Avg Ta using Non Preemptive Priority Scheduling
+
+Wt = StartTime - ArrivalTime
+Wt1 = 0 - 0 = 0
+Wt2 = 9 - 0 = 9
+Wt3 = 4- 3 = 1
+
+avg Wt = ( 0+9+1 )/3
+
+Ta = Wt +CPUBurstTime
+Ta1 = 0 + 4 = 4 , Ta2 = 9 +2 =11  , Ta3 = 1 + 5 = 6
+Avg Ta =  ( 4+ 11+6)/3
+
+________________________________________
+process   arrivalTime CPUBurstTime  Priority
+p1		     0			  4ms		    5
+P2			 1 			  5ms			9
+P3		     3	          3ms		    10
+P4	         2            2ms           2
+
+Find Avg Wt and Avg Ta using Preemptive Priority scheduling --
+
+Wt = (StartTime-ArrivalTime) + SumOf( (resumetime- preemptedTime) )
+
+Wt1 =  (0-0) + (9-1) = 8
+Wt2 =  (1-1) + (6-3) =3
+Wt3 =  (3-3) = 0
+Wt4 =  (12 -2) = 10
+
+Avg Wt = (8+3+0+10)/4
+Ta = Wt + CPUBurstTime
+Ta1 =8 +4 = 12 ; Ta2 = 3+5=8; Ta3 = 0 +3 =3; Ta4 = 10+2 = 12
+Avg Ta = (12+8+3+12) /4
+
+
+
+Round Robin Scheduling - Schedular will select a process that is in the front of the ready queue . The CPU is allocated for a small time duration only - this is called as TIME SLICE / TIME QUANTUM 
+
+---------------
+After Every time slice , next time will the process start from begining?
+
+No , the process resumes from the point it left !!!
+How does the process know from where to resume ???? 
+	Kernel maintains the CONTEXT of the process !!
+	CONTEXT  = snapshot of the CPU registers at the time process leaves CPU.
+
+	When P1 uses CPU = CONTEXT is loaded in CPU registers and P1 proceeds from that point
+	When Timer Interrupt occurs after TIME SLICE is over 
+	CONTEXT of P1 is SAVED and CONTEXT of P2 is LOADED 
+	This is called CONTEXT SWITCHING .
+	
+----------------
+	
+Advantage = 
+1. Multitasking Effect = end user gets a feeling that many processes are running at a time .
+
+2. Response time  = reduced 
+
+3. No Starvation
+
+Disadvantage =
+1. Heavy CONTEXT SWITCHING overhead 
+2. Avg Wt increases , Avg Ta increases , throughput decreases 
+	
+	
+Assume TIME QUANTUM = 2ms 
+
+process	 arrivalTime	cpuburstTime
+P1			0				4ms
+P2			1				6ms
+P3			2				3ms
+	
+Find Avg Wt, Avg Ta using RR !!!
+_________________________________________________
+Practice 
+
+	process 	arrivalTime  cpuburstTime	priority
+	  P1		  1				3			  7
+	  P2		  0				5			  3
+	  P3		  2				4			  9
+	  
+Find avt Wt and avg Ta using
+1. FIFO
+2. SJF  Non Preemptive
+3. SJF Preemptive
+4. Preemptive Priority
+5. Non Preemptive Priority
+6. RR ( TS = 2ms ) 
+
+_______________________________________
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+		
+		
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

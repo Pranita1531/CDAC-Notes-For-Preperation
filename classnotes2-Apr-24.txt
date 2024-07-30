@@ -1,0 +1,214 @@
+
+Good Morning : )
+Let me introduce myself 
+Prachi Godbole
+24 years
+BE comp ( GECA ) + ME comp
+
+Developer , TL , Design team } India + Japan
+
+last 12 years --- corporate trainer / cdac trainer
+PrudentSoftwareAcademy
+__________________________
+
+OS  = Tells you about the system !!
+
+Full Form of OS = Operating System !
+
+What is OS ? 
+Is it a software / hardware ? ---software
+
+Software? set of programs
+Program = set of instructions
+
+Two types of S/w  = System S/W  , Application S/W
+
+System S/W ? S/W to manage the h/w system 
+Example - OS , linker , loader, compiler, interpreters, device drivers
+
+Application S/W ?    Programs to solve user problems
+Example - add.c , calc.cpp , MS office, browsers, Media players, games
+
+What does OS do ?
+	1. INTERFACING
+		a. OS is an interface between end-user and system
+			( CLI  or GUI  )
+		b. OS is an interface between application-program and system
+			( system calls ) 
+
+
+	2.  PROCESS MANAGEMENT
+	3.  MEMORY MANAGEMENT
+	4.  IO/DEVICE   MANAGEMENT
+	5.  AUTHORIZATION /AUTHENTICATION ( SECURITY )
+______________________________________
+
+What is the System ?
+	System consists of 
+		1. Processor -- Execute/Run the instructions
+		2. Storage --- store the programs
+		3. IO device --- Interact with the external world 
+
+
+	 Assume that you have written and compiled add.c ---> add.exe
+
+	Where  is add.exe stored ? 
+	Secondary Storage  = HDD or SSD 
+	   HDD -  Set of Discs ( Platter )  made up of "Al"
+		  coated with "Fe" ( magnetic material ) - magnetic dipole 
+
+	   Non Volatile Storage = Stored data is retained after POWER OFF
+		Access time is very slow 
+		Size = 1Tb ( 1000 gb huge size )
+
+
+________________________________
+	Primary Storage = RAM = Volatile Memory = Primary Memory = Memory
+	Main memory  = the data is NOT retained after POWER OFF 
+		Access time is much faster than HDD
+		Size = 8 gb or 16gb
+
+______________________________________
+	Cache = L1 cache , L2 cache 
+		FLIP-FLOPS 
+		Small size / Volatile  / Access time is very fast 
+
+
+_______________________________________
+	Processor ---
+
+	  main 
+	   printf enter num   }  IO 
+	   scanf %d %d , &x,&y } IO
+	   sum = x + y  }  CPU
+	   printf sum  } IO 
+
+
+Two types of Instructions in any program  ---  
+1. CPU instructions  = Arithmetic Instructions ( + -  *  / % ) 
+		       Logical Instructions (  && || !  )
+		       Relational Instructions (  <  > <= >= !=  == )
+2. IO instructions = printf , scanf , cout , cin , fwrite , fread 
+
+	Processor 
+	1. CPU  =  execute CPU instructions
+	2. DMA / IO co processor  = Direct Memory Access =  execute IO instructions
+
+______________________________________
+
+	CPU  --- ALU  + registers 
+		
+	ALU  = Arithmetic and Logical Unit  = Semiconductor circuit  
+		the circuits can execute Arithmetic logical and relational instr
+
+	Registers =   Very fast access storage 
+		      size v.v.v. small ( WORD size =  32bit/64bit /128bit)
+			
+
+		1. IR  = HOLDS one instruction at a time = Instruction register
+		2. PC =  Holds the Offset address of next instruction 
+				Program Counter
+		3. DR0, DR1 = Data Registers = Holds the Operands of the operation
+		4. Accumulator  =  HOld the result of the instruction
+
+
+______________________________ 
+	IO  Devices 
+
+	Input Device = Data flows from input device to RAM ( via DMA )
+	Keyboard , mouse, scanner, mic , joystic , PD , CD , biometric scanner 
+	retina , finger , barcode scanner , rfid 
+
+
+	Output Device = console, speaker ,printer, projector , ......
+	Data Flows from RAM  to Output Device ( via DMA )
+_____________________________________________
+
+	LAB  ---  
+		OS  --- Linux based OS  ( ubuntu / Cent OS  )
+
+		CLI 
+	1. connect to the server  192.168.100.56  using putty.exe
+	2. get your login and password and enter
+	3. change appearance
+	4. press enter many times and see the PROMPT  
+	5. type a command  -  clear  
+	6. type a command  - pwd  }  it will show present working directory 
+
+  TOPMOST folder   =  /   ( forward Slash ) 
+	7.  go to topmost directory  =  cd = change directory
+		cd /
+	8.  again pwd 
+	9. see the contents of topmost folder 
+			ls  = list contents
+	10  . go to each folder in topmost folder using cd  >>  cd  bin 
+		see the contents using ls 
+		 go back to topmost folder using cd / 
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+	   
+
+
+
+
+
+
+
+
+
+
+
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

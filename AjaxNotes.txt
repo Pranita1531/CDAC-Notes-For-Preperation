@@ -1,0 +1,35 @@
+15/4/24 
+
+*Introduction of Ajax 
+*where to use Ajax 
+*Ajax workflow 
+
+*how to intall json 
+npm install -g json-server
+
+JSON(javascript object Notation):
+-it look like javascript object , 
+-in that data store in key and value pairs formate
+-it is denoted by {} and key and value are seperated by : 
+-if you want to access data outside it for that we write object.keyname.
+-basically data in availanle in text formate.
+
+-json data is more convenient to fetch from server and send to server. 
+
+*How to upload database on json-serer 
+json-server --watch -p 9999 db.json
+
+GET : it will retun us data 
+DELETE : it will delete data 
+POST : it is use to add data 
+PUT : it is use to update data  
+
+
+
+
+
+
+
+
+
+

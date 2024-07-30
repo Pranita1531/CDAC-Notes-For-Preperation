@@ -1,0 +1,400 @@
+
+Good Morning : )
+
+Revision 
+	- Interfacing done by OS
+	- IR , PC ,DR0, Accumulator 
+	- L1 , L2 cache
+	- DMA 
+	
+_____________________________
+  Types of OS ---
+  1. Desktop OS/GPOS = General purpose OS  = Windows 11 ( single user OS ) 
+  2. Server OS = Windows NT , Solaris , Unix 
+  3. Mobile OS = Android , IOS , windows 
+  4. Real time OS = RTOS  = Deadline sensitive applications
+		LinuxRT 
+  5. MultiUser OS  =  at a time many users can connect to single instance of the OS = All linux based OS ( CentOS , ubuntu )
+  6. Embedded OS  = used in machines 
+  
+  HW --  open Google --- for each OS discussed above give 3 more OS examples
+  
+  ___________________________________
+  Kernel  = OS 
+  
+  Monolithic Kernel = the OS is made of single Huge Program
+  
+  Advantage  ----  Fast , as no external communication with other programs needed
+  
+  Disadvantage  --- If one module crashes entire OS crashes
+  
+  MicroKernel = the OS is made of multiple small programs interacting with each other
+ 
+	Advantage = if one functionality crashes others may keep working
+	
+	Disadvantage  = every time overhead of interprocess communication
+ 
+  ___________________________________________________
+  
+  RAM  = This is divided into two parts 
+			Kernel space = Store the Kernel programs 
+			
+			User space = store the User programs 
+  
+  ___________________________________________________
+  
+  Mode of Execution = 
+	Kernel Mode = all the privilaged instructions are executed
+				= No restriction on RAM access
+	
+	User Mode =  non privilaged instructions are executed
+				= restrictions on RAM access
+  
+  ____________________________________
+  
+  
+  Interrupts=  signal given to the CPU 
+  
+  Who gets the interrupt ?  CPU on the  interrupt pins as electric signal
+  
+  Who generates the interrupts ?
+	1. IO devices ( generate hardware interrupts - ctrl-c )
+	2. programs can generate signals ( software interrupts )
+		kernel generates a TRAP interrupt if user access wrong space
+    3. Timer interrupts 
+	
+	When interrupt occurs - Some HANDLING mechanism 
+	 -  different Handlers for different interrupts 
+			- ignore
+			- pause and let the interrupting process work 
+  
+    Interrupts are handled by handler functions
+		 - Interrupt Handlers
+		 - Interrupt Service Routine ( ISR ) 
+	
+	These handlers are present in the kernel , loaded in kernel space.
+		
+		 MAPPING of Interrupt and Interrupt handler  is done in a table 
+			Interrupt Table OR  Interrupt Vector Table ( IVT ) 
+			
+			Interrupt Number	|	Pointer to Interrupt Handlers
+				1						f1
+				2						f3
+				3					    f5 
+	____________________________________
+		
+	Two types of interrupts -
+	1. Maskable interrupts - we may ignore the interrupt
+	2. Non Maskable interrupts - we can never ignore the interrupt 
+				
+____________________________________________________			
+	
+What is Linux ? NO OS called Linux
+	Linux architecture based on which many OS are created .
+	Linux based OS === Flavors of Linux 
+		- Ubuntu , Red Hat , Fedora , CentOS , Debian , Mandrake, Mandriva, Kali , BOSS,..........
+		
+		
+Linux based OS	|  Windows based OS 
+ Linux based OS  === GPL(Gnu Public License) - free for use
+				 == the source code is available for reading and changing ( OPEN SOURCE ) 
+				 
+ Windows OS  ===  Proprietary  - purchase license for use
+				 === Source code not available for reading or changing
+				 ( not open source )
+		
+	
+Unix  looks similar to Linux based OS  But it is Licensed !!	
+		
+____________________________________________________
+CLI is more popular than GUI in linux based OS !!!
+
+CLI =  EndUser ---give commands ----> Shell 
+
+Shell = program that will show the command prompt window 
+		+
+		accept commands 
+		+ 
+		execute commands
+		+
+		show result 
+		
+___________________________________________________
+
+Linux based OS has many shell programs 
+	 bash  , csh ,ksh , tcsh , bourne shell  etc 
+	 
+	Every shell has a different set of commands !!!
+	 
+Default shell is  bash !!
+	WE will learn the command set of bash shell .
+	
+______________________________________________
+	 
+File Handling bash commands  -- commands about directory and files 
+
+		topmost folder = "/"
+		
+		create a directory  = mkdir
+		remove a blank directory  = rmdir 
+		remove a non empty directory  = rm -r 
+		add a file to the directory  = touch
+		remove a file from directory = rm 
+		
+Ex1 -------
+		on the prompt -in your home folder
+		create a folder planets =  mkdir planets
+		check  =  ls
+		change the current folder to planets = cd planets 
+		check the contents of planets folder = ls ( we see that it is empty)
+______________________________________________
+Ex 2  ------------ pwd  =  /home/loginfolder/planets 
+		 in planets create 3 folders earth , mars jupiter  
+		      mkdir earth mars jupiter
+		 without changing the folder - see contents of earth , mars ,jupiter
+				ls path
+				 ls ./earth
+				  ls ./mars
+				  ls ./jupiter
+		 
+		 
+		 from same pwd create a folder moon in earth folder
+					mkdir ./earth/moon
+					
+		 
+		 from same pwd --- see contents of earth and moon 
+
+				ls ./earth
+				ls ./earth/moon
+
+
+
+____________________________________________________
+      /earth =  topmost folder has earth subfolder
+	  ./earth = current folder has earth subfolder 
+___________________________________________________
+Ex 3 ---------------
+		pwd = /home/loginfolder/planets
+		create a file in moon folder  named moon_info 
+		  touch ./earth/moon/moon_info
+		  
+		observe the detailed info of the file 
+		   ls -l ./earth/moon
+		   
+		observe the detailed info of earth mars and jupiter 
+			ls -l
+----------------------------------
+-rw-rw-r--. 1 faculty faculty 0 Apr  3 11:58 moon_info
+dash in the corner indicates REGULAR file
+
+
+drwxrwxr-x. 3 faculty faculty 18 Apr  3 11:54 earth
+d in the corner indicates directory
+
+ls -l }  long listing it shows detailed info  of the folder content 
+		
+____________________________________________________________
+Ex 4  ---  pwd = /home/loginfolder/planets
+		   remove the empty folder mars 
+				rmdir ./mars
+				
+		   remove the non-empty folder earth 
+			   rmdir  ./earth  }}}  error
+			   so
+			   rm -r ./earth
+			   
+			
+		   create a file test in current folder 
+				touch ./test
+				
+		   see if file is created 
+		   
+		           ls -l
+				   
+		    remove the file 
+			   rm  ./test
+			   
+____________________________________________________________
+			
+Most popular CLI editor in linux based OS  =  vi editor 
+				   
+			vi editor runs in two modes ---
+			1. command mode  = we can commands , save, quit
+			2. insert mode = we can insert data in the file 
+			
+	default mode = command mode
+				   
+	Switch between modes ---
+		command mode ====> insert mode ( type i ) 
+		insert mode ===> command mode  press esc
+				
+______________________________________________
+Ex 5 - 
+when vi opens , mode is command mode 
+type i ( to go to insert mode )
+type data as much as u want
+to save content = esc :w
+to type again  = i 
+type again 
+to save and quit  = esc :wq
+reopen 
+see content
+close without changing =  :q 
+reopen
+change content =  i and type content
+quit without saving   = esc :q!
+reopen
+_____________________________________________
+
+pwd = /home/loginfolder/planets
+Ex6 
+     cat ./planet_info
+	 tac ./planet_info 
+	 
+	 observe the output 
+	 
+____________________________________________
+Ex 7 
+	pwd  = /home/loginfolder
+	create a folder structure -
+		 cdac 
+		   - subjects
+		        - CPP
+				- OS
+				- PT
+	remove the PT folder
+	add a file assignments in CPP folder 
+	add a file lab in OS folder 
+	edit lab file and add some content
+	view the content of lab file using cat and tac 
+	remove CPP folder
+	remove lab file 
+	
+	ALL the time check using ls  and ls -l
+___________________________________________
+	
+Process Management  -
+
+Program  = stored code , place of residence = HDD
+
+Process = executing code 
+		=  program in execution , place of residence = RAM ,cache,CPU 
+	
+
+Every Process Has a Life Cycle ---
+Different states/ phases in the process life cycle 
+
+1. created state 
+		a. load the program in the RAM from HDD
+		b. the loaded program gets a space in the RAM 
+				called as process space , address space 
+				it is unique for each process
+				address space is made up of ==> code,data,stack, heap
+				
+		c. kernel will assign a PID and a PCB to the process 
+			PCB = process control block 
+					it has info about the process 
+						pid , location, priority , status 
+				
+				
+				
+2. ready state = the process waits for CPU to be free in a queue
+				 called ready queue 
+				 
+3. executing/running state = the cpu is free and process is using it 
+4. IO waiting state  = 
+         If IO instruction occurs then process waits for IO completion
+		 and releases the CPU 
+		 
+5. terminated state = the process executes all instructions and reaches the end of main !!
+			- release the PCB 
+			- release the PID
+			-release the address space 
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+				
+				
+				
+				
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				
+				
+			   
+			   
+			   
+			   
+			   
+		
+		
+		
+		
+		
+	 
+	 
+	 
+	 
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+		
+		
+		
+	
+		 
+  
+  
+  
+  
+  
+  
+  
